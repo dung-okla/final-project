@@ -4,26 +4,35 @@ import {Header} from '../../utils'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
+interface TableRow {
+  id: number;
+  [key: string]: any;
+}
+
+
 interface FTable {
   tableName: string
   headers: Header[]
-  rows: any[]
+  rows: TableRow[]
+  onEdit?: (id: number) => void
 }
 
-const RenderActionBtn = (headers: Header[]) => {
+const RenderActionBtn = (headers: Header[],  onEdit?: (id: number) => void
+  , row: TableRow
+) => {
   const keys = headers.map(header => header.name)
   if (!keys.includes('action')) return
 
   return (
     <TableCell>
-      <EditIcon color={'success'}/>
+      <EditIcon color={'success'} onClick={() => onEdit?.(row.id)}/>
       <DeleteOutlineIcon color={'error'}/>
     </TableCell>
   )
 }
 
 
-export default ({tableName, headers, rows}: FTable) => {
+export default ({tableName, headers, rows, onEdit}: FTable) => {
   return (
     <>
       <h2>{tableName}</h2>
@@ -51,7 +60,7 @@ export default ({tableName, headers, rows}: FTable) => {
                       })
                     }
                     {
-                      RenderActionBtn(headers)
+                      RenderActionBtn(headers, onEdit,row)
                     }
                   </TableRow>
                 )

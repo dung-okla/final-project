@@ -4,13 +4,13 @@ export interface Header {
 }
 
 interface Master {
-  id: number
-  name: string
+  id: number | null
+  name: string | null
 }
 
 export interface Employee extends Master{
-  age: number
-  address: string
+  age: number | null
+  address: string | null
 }
 
 export interface Product extends Master {
